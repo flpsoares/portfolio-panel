@@ -13,4 +13,12 @@ export default createGlobalStyle`
     border: 0;
     cursor: pointer;
   }
+
+  :root {
+    --primary: #286380;
+    --secondary: #417A95;
+    --tertiary: #94BED2;
+    --text-primary: #c9d1d9;
+    --dark-primary: #141414;
+  }
 `
