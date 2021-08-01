@@ -1,10 +1,11 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
-  height: 100vh;
   width: 100vw;
+  height: 100vh;
 
-  display: flex;
+  display: grid;
+  grid-template-columns: 300px 1fr;
 
   overflow: hidden;
 `
