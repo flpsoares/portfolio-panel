@@ -6,6 +6,12 @@ export default createGlobalStyle`
     padding: 0;
     outline: 0;
     box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    color: var(--text-primary);
+  }
+
+  body {
+    background: var(--dark-secondary);
   }
   
   button, input {
@@ -20,5 +26,6 @@ export default createGlobalStyle`
     --tertiary: #94BED2;
     --text-primary: #c9d1d9;
     --dark-primary: #141414;
+    --dark-secondary: #262626;
   }
 `
