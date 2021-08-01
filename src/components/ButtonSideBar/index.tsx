@@ -7,19 +7,25 @@ interface LinkProps {
   title: string
   path: string
   icon: ReactNode
+  isActive?: boolean
 }
 
-export const ButtonSideBar: React.FC<LinkProps> = ({ title, path, icon }) => {
+export const ButtonSideBar: React.FC<LinkProps> = ({
+  title,
+  path,
+  icon,
+  isActive
+}) => {
   return (
     <Container>
-      <Primary></Primary>
-      <Secondary>
+      <Primary isActive={!!isActive}></Primary>
+      <Secondary isActive={!!isActive}>
         <Link to={path}>
           {icon}
           {title}
         </Link>
       </Secondary>
-      <Tertiary></Tertiary>
+      <Tertiary isActive={!!isActive}></Tertiary>
     </Container>
   )
 }

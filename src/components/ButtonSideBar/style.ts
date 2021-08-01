@@ -1,5 +1,9 @@
 import styled from 'styled-components'
 
+interface ButtonProps {
+  isActive?: boolean
+}
+
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -20,10 +24,11 @@ export const Container = styled.div`
   }
 `
 
-export const Primary = styled.div`
+export const Primary = styled.div<ButtonProps>`
   border-bottom-right-radius: 10px;
 
-  background: var(--dark-secondary);
+  background: ${(props) =>
+    props.isActive ? 'var(--dark-secondary)' : 'var(--primary)'};
 
   position: relative;
   height: 10px;
@@ -34,7 +39,9 @@ export const Primary = styled.div`
     position: absolute;
     width: 100%;
     height: 100%;
-    background: var(--dark-secondary);
+    /* background: var(--dark-secondary); */
+    background: ${(props) =>
+      props.isActive ? 'var(--dark-secondary)' : 'var(--primary)'};
     z-index: 4;
   }
 
@@ -48,8 +55,9 @@ export const Primary = styled.div`
     border-bottom-right-radius: 10px;
   }
 `
-export const Secondary = styled.div`
-  background: var(--dark-secondary);
+export const Secondary = styled.div<ButtonProps>`
+  background: ${(props) =>
+    props.isActive ? 'var(--dark-secondary)' : 'var(--primary)'};
 
   display: flex;
   align-items: center;
@@ -58,7 +66,7 @@ export const Secondary = styled.div`
   border-bottom-left-radius: 10px;
 `
 
-export const Tertiary = styled.div`
+export const Tertiary = styled.div<ButtonProps>`
   background: var(--primary);
 
   position: relative;
@@ -70,7 +78,8 @@ export const Tertiary = styled.div`
     position: absolute;
     width: 100%;
     height: 100%;
-    background: var(--dark-secondary);
+    background: ${(props) =>
+      props.isActive ? 'var(--dark-secondary)' : 'var(--primary)'};
     z-index: 4;
   }
 
