@@ -27,5 +27,5 @@ export const Wrapper = styled.div`
   align-items: flex-end;
   gap: 35px;
 
-  margin-top: 45px;
+  margin-top: 80px;
 `

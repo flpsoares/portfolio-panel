@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: 70%;
+  width: 80%;
 
   a {
     color: var(--text-primary);
@@ -11,7 +11,9 @@ export const Container = styled.div`
     width: 100%;
 
     display: flex;
-    align-items: center;
+
+    font-size: 24px;
+    font-weight: 500;
 
     padding: 14px;
     gap: 6px;
