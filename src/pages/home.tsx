@@ -1,5 +1,10 @@
+import { Title } from '../components/Title'
 import { Container } from './styles/home'
 
 export const Home: React.FC = () => {
-  return <Container>Home</Container>
+  return (
+    <Container>
+      <Title>Home</Title>
+    </Container>
+  )
 }
