@@ -19,7 +19,7 @@ export const Container = styled.div`
     font-size: 24px;
     font-weight: 500;
 
-    padding: 14px;
+    padding: 18px;
     gap: 6px;
   }
 `

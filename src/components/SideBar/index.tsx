@@ -13,21 +13,26 @@ export const SideBar: React.FC = () => {
         <span>Control Panel</span>
       </Logo>
       <Wrapper>
-        <ButtonSideBar icon={<AiOutlineHome size={26} />} path="/" title="Home" />
+        <ButtonSideBar
+          exact
+          icon={<AiOutlineHome size={26} />}
+          path="/"
+          title="Home"
+        />
         <ButtonSideBar
           icon={<IoCreateOutline size={26} />}
           path="/create"
-          title="Criar"
+          title="Create"
         />
         <ButtonSideBar
           icon={<AiOutlineEdit size={26} />}
           path="/edit"
-          title="Editar"
+          title="Edit"
         />
         <ButtonSideBar
           icon={<IoMdRemoveCircleOutline size={26} />}
           path="/remove"
-          title="Remover"
+          title="Remove"
         />
       </Wrapper>
     </Container>
