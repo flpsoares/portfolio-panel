@@ -28,7 +28,7 @@ export const Primary = styled.div<ButtonProps>`
   border-bottom-right-radius: 10px;
 
   background: ${(props) =>
-    props.isActive ? 'var(--dark-secondary)' : 'var(--primary)'};
+    props.isActive ? 'var(--dark-primary)' : 'var(--primary)'};
 
   position: relative;
   height: 10px;
@@ -39,9 +39,8 @@ export const Primary = styled.div<ButtonProps>`
     position: absolute;
     width: 100%;
     height: 100%;
-    /* background: var(--dark-secondary); */
     background: ${(props) =>
-      props.isActive ? 'var(--dark-secondary)' : 'var(--primary)'};
+      props.isActive ? 'var(--dark-primary)' : 'var(--primary)'};
     z-index: 4;
   }
 
@@ -57,7 +56,7 @@ export const Primary = styled.div<ButtonProps>`
 `
 export const Secondary = styled.div<ButtonProps>`
   background: ${(props) =>
-    props.isActive ? 'var(--dark-secondary)' : 'var(--primary)'};
+    props.isActive ? 'var(--dark-primary)' : 'var(--primary)'};
 
   display: flex;
   align-items: center;
@@ -79,7 +78,7 @@ export const Tertiary = styled.div<ButtonProps>`
     width: 100%;
     height: 100%;
     background: ${(props) =>
-      props.isActive ? 'var(--dark-secondary)' : 'var(--primary)'};
+      props.isActive ? 'var(--dark-primary)' : 'var(--primary)'};
     z-index: 4;
   }
 

@@ -11,7 +11,7 @@ export default createGlobalStyle`
   }
 
   body {
-    background: var(--dark-secondary);
+    background: var(--dark-primary);
   }
   
   button, input {
