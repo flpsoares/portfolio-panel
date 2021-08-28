@@ -26,8 +26,44 @@ export const Wrapper = styled.form`
 
   border-radius: 6px;
   box-shadow: 10px 20px 20px 2px rgba(0, 0, 0, 0.2);
+`
 
-  padding-bottom: 12px;
+export const WrapperHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`
+
+export const TechnologiesButton = styled.button`
+  font-size: 18px;
+  font-weight: 500;
+
+  background: var(--secondary);
+  border-radius: 6px;
+  padding: 8px;
+
+  transition: filter 0.2s;
+  color: white;
+
+  margin-right: 8px;
+
+  &:hover {
+    filter: brightness(0.9);
+  }
+`
+
+export const SwitchLabel = styled.label`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  width: 200px;
+
+  gap: 14px;
+
+  span {
+    font-weight: 500;
+  }
 `
 
 export const InputWrapper = styled.div`
