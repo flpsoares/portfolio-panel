@@ -8,9 +8,19 @@ import { Create } from './pages/create'
 import { Edit } from './pages/edit'
 import { Remove } from './pages/remove'
 
+import { Alert } from './components/Alert'
+import { useContext } from 'react'
+import { ModalContext } from './contexts/ModalContext'
+import { AnimatePresence } from 'framer-motion'
+
 export const App: React.FC = () => {
+  const { alertIsOpen, alertContent, alertIsSuccess } = useContext(ModalContext)
+
   return (
     <Container>
+      <AnimatePresence>
+        {alertIsOpen && <Alert content={alertContent} isSuccess={alertIsSuccess} />}
+      </AnimatePresence>
       <SideBar />
       <Switch>
         <Route exact path="/" component={Home} />
