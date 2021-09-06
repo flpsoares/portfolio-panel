@@ -45,6 +45,10 @@ export const Box = styled(motion.div)`
   width: 700px;
   height: 400px;
 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
   background: rgba(0, 0, 0, 0.9);
 
   padding: 32px;
@@ -62,6 +66,34 @@ export const BoxWrapper = styled.div`
 
   width: 100%;
   height: 90%;
+`
+
+export const NewTechnology = styled.form`
+  width: 100%;
+  height: 48px;
+
+  display: flex;
+  justify-content: space-between;
+
+  input {
+    width: 85%;
+    height: 100%;
+
+    padding: 0 12px;
+    font-size: 20px;
+
+    border: 1px solid var(--primary);
+    border-radius: 4px;
+
+    ::placeholder {
+      filter: brightness(0.6);
+    }
+  }
+
+  button {
+    font-size: 20px;
+    font-weight: 500;
+  }
 `
 
 export const CloseButton = styled.button`

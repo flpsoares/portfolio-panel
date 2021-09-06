@@ -3,25 +3,50 @@ import {
   BoxWrapper,
   CloseButton,
   Container,
+  NewTechnology,
   OverlayBackdrop,
   OverlayBody
 } from './style'
 
 import { MdClose } from 'react-icons/md'
 import { CheckTech } from '../CheckTech'
-import { useContext } from 'react'
+import { FormEvent, useContext, useEffect, useRef, useState } from 'react'
 
 import { ProjectContext } from '../../contexts/ProjectContext'
 import { ModalContext } from '../../contexts/ModalContext'
+import ProjectApi from '../../services/api/ProjectApi'
 
 export const ModalTechnology: React.FC = () => {
   const { closeModalTechnology } = useContext(ModalContext)
-  const { technologies } = useContext(ProjectContext)
+  const {
+    technologies,
+    technologyWasAdded,
+    listTechnologies,
+    addedTechnology,
+    setTechnologyWasAdded
+  } = useContext(ProjectContext)
+  const nameRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    setTechnologyWasAdded(false)
+    listTechnologies()
+  }, [technologyWasAdded])
 
   function closeModalClickingInOverlay(e: any) {
     if (e.currentTarget === e.target) {
       closeModalTechnology()
     }
+  }
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault()
+
+    ProjectApi.createTechnology({ name: nameRef.current?.value }).then(() => {
+      if (nameRef.current !== null) {
+        nameRef.current.value = ''
+        addedTechnology()
+      }
+    })
   }
 
   return (
@@ -40,6 +65,15 @@ export const ModalTechnology: React.FC = () => {
             })
             .reverse()}
         </BoxWrapper>
+        <NewTechnology onSubmit={handleSubmit}>
+          <input
+            ref={nameRef}
+            autoFocus
+            type="text"
+            placeholder="Add new technology"
+          />
+          <button type="submit">Create</button>
+        </NewTechnology>
         <CloseButton onClick={closeModalTechnology} type="button">
           <MdClose size={26} />
         </CloseButton>
