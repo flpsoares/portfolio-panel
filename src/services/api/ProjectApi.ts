@@ -39,6 +39,14 @@ class ProjectApi {
   public async listTechnologies() {
     return api.get<App.Technology>('technologies').then((res) => res.data)
   }
+
+  public async createTechnology({ name }: Partial<App.Technology>) {
+    return api
+      .post('technology', {
+        name
+      })
+      .then((res) => res.data)
+  }
 }
 
 export default new ProjectApi()
