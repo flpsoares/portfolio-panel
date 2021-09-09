@@ -12,6 +12,8 @@ export const Container = styled(motion.div)`
   top: 20px;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
+
+  z-index: 20;
 `
 
 export const Content = styled.div`
