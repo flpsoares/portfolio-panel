@@ -1,14 +1,15 @@
-import { createContext, ReactNode, useEffect, useState } from 'react'
+import { createContext, ReactNode, useState } from 'react'
 import ProjectApi from '../services/api/ProjectApi'
 
 interface ProjectContextData {
   technologies: Array<App.Technology>
-  choosedTechnologies: number[] | undefined
+  choosedTechnologies: number[]
   getChoosedTechnologies: (number: number) => void
   technologyWasAdded: boolean
   setTechnologyWasAdded: (value: boolean) => void
   addedTechnology: () => void
   listTechnologies: () => void
+  clearTechnologies: () => void
 }
 
 interface ProjectContextProviderProps {
@@ -30,6 +31,10 @@ export function ProjectProvider({ children }: ProjectContextProviderProps) {
     setTechnologyWasAdded(true)
   }
 
+  const clearTechnologies = () => {
+    setTechnologies([])
+  }
+
   const listTechnologies = () => {
     ProjectApi.listTechnologies().then((res) => setTechnologies(res))
   }
@@ -43,7 +48,8 @@ export function ProjectProvider({ children }: ProjectContextProviderProps) {
         technologyWasAdded,
         setTechnologyWasAdded,
         addedTechnology,
-        listTechnologies
+        listTechnologies,
+        clearTechnologies
       }}
     >
       {children}
