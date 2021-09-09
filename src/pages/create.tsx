@@ -1,4 +1,11 @@
-import { ChangeEvent, useRef, useState, useContext, ErrorInfo } from 'react'
+import {
+  ChangeEvent,
+  useRef,
+  useState,
+  useContext,
+  ErrorInfo,
+  FormEvent
+} from 'react'
 import { ImagePreview } from '../components/ImagePreview'
 import { Title } from '../components/Title'
 import {
@@ -24,21 +31,25 @@ import { AnimatePresence } from 'framer-motion'
 import { ProjectContext } from '../contexts/ProjectContext'
 import ProjectApi from '../services/api/ProjectApi'
 
+import { useHistory } from 'react-router-dom'
+
 export const Create: React.FC = () => {
   const { modalTechnologyIsOpen, openModalTechnology, openAlert } =
     useContext(ModalContext)
-  const { choosedTechnologies } = useContext(ProjectContext)
+  const { choosedTechnologies, clearTechnologies } = useContext(ProjectContext)
+
+  const history = useHistory()
 
   const nameRef = useRef<HTMLInputElement>(null)
   const descriptionRef = useRef<HTMLTextAreaElement>(null)
   const linkRef = useRef<HTMLInputElement>(null)
+  const fileRef = useRef<HTMLInputElement>(null)
 
   const [imagesChoosen, setImagesChoosen] = useState<any>(0)
   const [srcImage, setSrcImage] = useState('')
   const [files, setFiles] = useState<File[]>([])
   const [checked, setChecked] = useState(true)
 
-  const fileRef = useRef<HTMLInputElement>(null)
   const handleChecked = (checked: boolean) => {
     setChecked(!checked)
   }
@@ -51,7 +62,7 @@ export const Create: React.FC = () => {
   }
 
   const listImages = (e: ChangeEvent<HTMLInputElement>) => {
-    return console.log(e.target.files)
+    // return console.log(e.target.files)
   }
 
   const handleOnChanged = (e: ChangeEvent<HTMLInputElement>) => {
@@ -59,27 +70,58 @@ export const Create: React.FC = () => {
     verifyFile(e)
   }
 
-  const handleSubmit = (e: any) => {
+  const successfullyRegisteredProject = () => {
+    openAlert('Project registered', true)
+    history.push('/')
+    clearTechnologies()
+  }
+
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
 
-    console.log(nameRef.current?.value)
+    if (choosedTechnologies.length === 0) {
+      return openAlert('You need to choose at least one technology')
+    }
 
-    if (checked === true && linkRef.current?.value === '') {
+    if (nameRef.current?.value === '') {
+      return openAlert('Name cannot be null')
+    }
+
+    if (descriptionRef.current?.value === '') {
+      return openAlert('Description cannot be null')
+    }
+
+    if (checked && linkRef.current?.value === '') {
       return openAlert('Link cannot be null')
     }
 
-    // if (!checked) {
-    //   ProjectApi.createWithImage(dataWithImage)
-    // }
+    if (!checked && files.length === 0) {
+      return openAlert('You need to choose at least one image')
+    }
 
-    ProjectApi.createWithLink({
-      name: nameRef.current?.value,
-      description: descriptionRef.current?.value,
-      link: linkRef.current?.value,
-      technologies: choosedTechnologies
-    })
-      .then(() => openAlert('Project registered', true))
-      .catch((e) => openAlert(e.response.data.errors[0].message))
+    if (checked) {
+      ProjectApi.createWithLink({
+        name: nameRef.current?.value,
+        description: descriptionRef.current?.value,
+        link: linkRef.current?.value,
+        technologies: choosedTechnologies
+      })
+        .then(() => successfullyRegisteredProject())
+        .catch((e) => openAlert(e.response.data.errors[0].message))
+    }
+
+    if (!checked && fileRef.current !== undefined) {
+      const image = fileRef.current?.files
+
+      ProjectApi.createWithImage({
+        name: nameRef.current?.value,
+        description: descriptionRef.current?.value,
+        image: image,
+        technologies: choosedTechnologies
+      })
+        .then(() => successfullyRegisteredProject())
+        .catch((e) => openAlert(e.response.data.errors[0].message))
+    }
   }
 
   return (
