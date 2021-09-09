@@ -8,7 +8,7 @@ class ProjectApi {
     technologies
   }: Partial<App.Project>) {
     return api
-      .post('project', {
+      .post('projectLink', {
         name,
         description,
         link,
@@ -17,35 +17,27 @@ class ProjectApi {
       .then((res) => res.data)
   }
 
-  // public async createWithImage({
-  //   name,
-  //   description,
-  //   image,
-  //   technologies
-  // }: Partial<App.Project>) {
-  //   const formData = new FormData()
-  //   formData.append('image', image)
+  public async createWithImage({ name, description, image, technologies }: any) {
+    const formData = new FormData()
 
-  //   return api
-  //     .post('project', {
-  //       name,
-  //       description,
-  //       image,
-  //       technologies
-  //     })
-  //     .then((res) => res.data)
-  // }
+    formData.append('name', name)
+    formData.append('description', description)
+    Array.from(image).forEach((image: any) => {
+      formData.append('image[]', image)
+    })
+    technologies.forEach((technologies: any) => {
+      formData.append('technologies[]', technologies)
+    })
+
+    return api.post<App.Project>('projectImage', formData).then((res) => res.data)
+  }
 
   public async listTechnologies() {
     return api.get<App.Technology>('technologies').then((res) => res.data)
   }
 
   public async createTechnology({ name }: Partial<App.Technology>) {
-    return api
-      .post('technology', {
-        name
-      })
-      .then((res) => res.data)
+    return api.post('technology', { name }).then((res) => res.data)
   }
 }
 
