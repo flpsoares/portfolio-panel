@@ -3,7 +3,7 @@ declare namespace App {
     name: string
     link?: string
     description: string
-    image?: App.Image[]
+    images?: App.Image[]
     technologies: number[]
   }
 }
