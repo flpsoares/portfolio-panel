@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom'
 import { useContext } from 'react'
 import { ProjectContext } from '../../contexts/ProjectContext'
 
-export const Project: React.FC<App.Project> = ({
+export const ProjectCard: React.FC<App.Project> = ({
   id,
   name,
   description,
