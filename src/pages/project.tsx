@@ -12,6 +12,11 @@ import {
   Wrapper
 } from './styles/project'
 
+import { ModalCarousel } from '../components/ModalCarousel'
+import { ModalContext } from '../contexts/ModalContext'
+
+import { AnimatePresence } from 'framer-motion'
+
 export const Project: React.FC = () => {
   const {
     projectName,
@@ -21,8 +26,11 @@ export const Project: React.FC = () => {
     projectLink
   } = useContext(ProjectContext)
 
+  const { modalCarouselIsOpen, openModalCarousel } = useContext(ModalContext)
+
   return (
     <Container>
+      <AnimatePresence>{modalCarouselIsOpen && <ModalCarousel />}</AnimatePresence>
       <Title>{projectName}</Title>
       <Technologies>
         {projectTechnologies?.map((technology: App.Technology) => {
@@ -37,8 +45,15 @@ export const Project: React.FC = () => {
           </Link>
         ) : (
           <Images>
-            {projectImages?.map((image) => {
-              return <Image key={image.id} src={image.url} alt={image.filename} />
+            {projectImages?.map((image, index) => {
+              return (
+                <Image
+                  onClick={() => openModalCarousel(index)}
+                  key={image.id}
+                  src={image.url}
+                  alt={image.filename}
+                />
+              )
             })}
           </Images>
         )}

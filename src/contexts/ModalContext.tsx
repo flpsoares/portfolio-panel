@@ -10,6 +10,10 @@ interface ModalContextData {
   alertIsSuccess: boolean | undefined
   openAlert: (content: string, isSuccess?: boolean) => void
   closeAlert: () => void
+  modalCarouselIsOpen: boolean
+  openModalCarousel: (initialIndex: number) => void
+  closeModalCarousel: () => void
+  initialIndex: number | undefined
 }
 
 interface ModalContextProviderProps {
@@ -23,6 +27,9 @@ export function ModalContextProvider({ children }: ModalContextProviderProps) {
   const [alertIsOpen, setAlertIsOpen] = useState(false)
   const [alertContent, setAlertContent] = useState('')
   const [alertIsSuccess, setAlertIsSuccess] = useState<boolean | undefined>(false)
+
+  const [modalCarouselIsOpen, setModalCarouselIsOpen] = useState(false)
+  const [initialIndex, setInitialIndex] = useState<number>()
 
   const openModalTechnology = () => {
     disableScroll()
@@ -45,6 +52,15 @@ export function ModalContextProvider({ children }: ModalContextProviderProps) {
     setAlertContent('')
   }
 
+  const openModalCarousel = (initialIndex: number) => {
+    setModalCarouselIsOpen(true)
+    setInitialIndex(initialIndex)
+  }
+
+  const closeModalCarousel = () => {
+    setModalCarouselIsOpen(false)
+  }
+
   return (
     <ModalContext.Provider
       value={{
@@ -55,7 +71,11 @@ export function ModalContextProvider({ children }: ModalContextProviderProps) {
         alertContent,
         alertIsSuccess,
         openAlert,
-        closeAlert
+        closeAlert,
+        modalCarouselIsOpen,
+        openModalCarousel,
+        closeModalCarousel,
+        initialIndex
       }}
     >
       {children}
