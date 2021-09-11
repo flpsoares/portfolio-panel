@@ -1,5 +1,9 @@
 import styled from 'styled-components'
 
+interface ButtonProps {
+  backgroundColor: string
+}
+
 export const Container = styled.div`
   background: var(--dark-secondary);
   width: 70%;
@@ -24,15 +28,23 @@ export const Title = styled.p`
   padding: 20px;
 `
 
-export const Button = styled.button`
+export const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
   position: absolute;
   right: 20px;
 
+  width: 200px;
+`
+
+export const Button = styled.button<ButtonProps>`
   display: flex;
   align-items: center;
   justify-content: center;
 
-  background: var(--primary);
+  background: ${(props) => props.backgroundColor};
   width: 45px;
   height: 45px;
   border-radius: 6px;

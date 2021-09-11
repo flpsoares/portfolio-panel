@@ -1,6 +1,8 @@
-import { Container, Title, Button } from './style'
+import { Container, Title, Button, Wrapper } from './style'
 
 import { HiPlus } from 'react-icons/hi'
+import { IoMdRemoveCircleOutline } from 'react-icons/io'
+import { AiOutlineEdit } from 'react-icons/ai'
 
 import { useHistory } from 'react-router-dom'
 import { useContext } from 'react'
@@ -32,9 +34,17 @@ export const ProjectCard: React.FC<App.Project> = ({
   return (
     <Container>
       <Title>{name}</Title>
-      <Button onClick={handleClick}>
-        <HiPlus size={24} />
-      </Button>
+      <Wrapper>
+        <Button backgroundColor="var(--primary)" onClick={handleClick}>
+          <HiPlus size={24} />
+        </Button>
+        <Button backgroundColor="var(--primary)" onClick={handleClick}>
+          <AiOutlineEdit size={24} />
+        </Button>
+        <Button backgroundColor="#F44336" onClick={handleClick}>
+          <IoMdRemoveCircleOutline size={24} />
+        </Button>
+      </Wrapper>
     </Container>
   )
 }
