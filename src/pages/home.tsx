@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-import { Project } from '../components/Project'
+import { ProjectCard } from '../components/ProjectCard'
 import { Title } from '../components/Title'
 import { api } from '../services/api'
 import { Container, Wrapper } from './styles/home'
@@ -18,7 +18,7 @@ export const Home: React.FC = () => {
       <Wrapper>
         {projects.map((project: App.Project) => {
           return (
-            <Project
+            <ProjectCard
               key={project.id}
               id={project.id}
               name={project.name}

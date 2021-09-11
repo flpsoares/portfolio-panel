@@ -5,8 +5,6 @@ import { Switch, Route } from 'react-router-dom'
 import { SideBar } from './components/SideBar'
 import { Home } from './pages/home'
 import { Create } from './pages/create'
-import { Edit } from './pages/edit'
-import { Remove } from './pages/remove'
 import { Project } from './pages/project'
 
 import { Alert } from './components/Alert'
@@ -26,8 +24,6 @@ export const App: React.FC = () => {
       <Switch>
         <Route exact path="/" component={Home} />
         <Route path="/create" component={Create} />
-        <Route path="/edit" component={Edit} />
-        <Route path="/remove" component={Remove} />
         <Route path="/project" component={Project} />
       </Switch>
     </Container>
