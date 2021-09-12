@@ -39,6 +39,10 @@ class ProjectApi {
   public async createTechnology({ name }: Partial<App.Technology>) {
     return api.post('technology', { name }).then((res) => res.data)
   }
+
+  public async deleteProject(id: string) {
+    return api.delete(`/project/${id}`)
+  }
 }
 
 export default new ProjectApi()
