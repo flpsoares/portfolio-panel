@@ -14,6 +14,12 @@ interface ModalContextData {
   openModalCarousel: (initialIndex: number) => void
   closeModalCarousel: () => void
   initialIndex: number | undefined
+  modalDeleteProjectIsOpen: boolean
+  openModalDeleteProject: () => void
+  closeModalDeleteProject: () => void
+  deleteId: string | undefined
+  deleteName: string | undefined
+  getDeleteInfo: (id: string, name: string) => void
 }
 
 interface ModalContextProviderProps {
@@ -30,6 +36,10 @@ export function ModalContextProvider({ children }: ModalContextProviderProps) {
 
   const [modalCarouselIsOpen, setModalCarouselIsOpen] = useState(false)
   const [initialIndex, setInitialIndex] = useState<number>()
+
+  const [modalDeleteProjectIsOpen, setModalDeleteProjectIsOpen] = useState(false)
+  const [deleteId, setDeleteId] = useState<string>()
+  const [deleteName, setDeleteName] = useState<string>()
 
   const openModalTechnology = () => {
     disableScroll()
@@ -61,6 +71,19 @@ export function ModalContextProvider({ children }: ModalContextProviderProps) {
     setModalCarouselIsOpen(false)
   }
 
+  const openModalDeleteProject = () => {
+    setModalDeleteProjectIsOpen(true)
+  }
+
+  const closeModalDeleteProject = () => {
+    setModalDeleteProjectIsOpen(false)
+  }
+
+  const getDeleteInfo = (id: string, name: string) => {
+    setDeleteId(id)
+    setDeleteName(name)
+  }
+
   return (
     <ModalContext.Provider
       value={{
@@ -75,7 +98,13 @@ export function ModalContextProvider({ children }: ModalContextProviderProps) {
         modalCarouselIsOpen,
         openModalCarousel,
         closeModalCarousel,
-        initialIndex
+        initialIndex,
+        modalDeleteProjectIsOpen,
+        openModalDeleteProject,
+        closeModalDeleteProject,
+        deleteId,
+        deleteName,
+        getDeleteInfo
       }}
     >
       {children}

@@ -7,6 +7,7 @@ import { AiOutlineEdit } from 'react-icons/ai'
 import { useHistory } from 'react-router-dom'
 import { useContext } from 'react'
 import { ProjectContext } from '../../contexts/ProjectContext'
+import { ModalContext } from '../../contexts/ModalContext'
 
 export const ProjectCard: React.FC<App.Project> = ({
   id,
@@ -16,10 +17,12 @@ export const ProjectCard: React.FC<App.Project> = ({
   images,
   link
 }) => {
+  const { openModalDeleteProject, getDeleteInfo } = useContext(ModalContext)
+
   const history = useHistory()
   const { getProjectInfo } = useContext(ProjectContext)
 
-  const handleClick = () => {
+  const openInfo = () => {
     getProjectInfo({
       id,
       name,
@@ -31,17 +34,23 @@ export const ProjectCard: React.FC<App.Project> = ({
     history.push('/project')
   }
 
+  const removeProject = () => {
+    const parseId = id.toString()
+    openModalDeleteProject()
+    getDeleteInfo(parseId, name)
+  }
+
   return (
     <Container>
       <Title>{name}</Title>
       <Wrapper>
-        <Button backgroundColor="var(--primary)" onClick={handleClick}>
+        <Button backgroundColor="var(--primary)" onClick={openInfo}>
           <HiPlus size={24} />
         </Button>
-        <Button backgroundColor="var(--primary)" onClick={handleClick}>
+        <Button backgroundColor="var(--primary)">
           <AiOutlineEdit size={24} />
         </Button>
-        <Button backgroundColor="#F44336" onClick={handleClick}>
+        <Button backgroundColor="#F44336" onClick={removeProject}>
           <IoMdRemoveCircleOutline size={24} />
         </Button>
       </Wrapper>
