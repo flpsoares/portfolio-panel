@@ -14,13 +14,13 @@ import { useContext } from 'react'
 import { ModalContext } from '../../contexts/ModalContext'
 import ProjectApi from '../../services/api/ProjectApi'
 
-import { useHistory } from 'react-router-dom'
+import { ProjectContext } from '../../contexts/ProjectContext'
 
 export const ModalDeleteProject: React.FC = () => {
   const { closeModalDeleteProject, deleteId, deleteName, openAlert } =
     useContext(ModalContext)
 
-  const history = useHistory()
+  const { updateProjectList } = useContext(ProjectContext)
 
   function closeModalClickingInOverlay(e: any) {
     if (e.currentTarget === e.target) {
@@ -35,7 +35,7 @@ export const ModalDeleteProject: React.FC = () => {
         .then(() => {
           openAlert('Project deleted successfully', true)
         })
-        .then(() => history.push('/'))
+        .then(() => updateProjectList())
     }
   }
 

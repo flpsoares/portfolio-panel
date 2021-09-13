@@ -1,11 +1,4 @@
-import {
-  ChangeEvent,
-  useRef,
-  useState,
-  useContext,
-  ErrorInfo,
-  FormEvent
-} from 'react'
+import { ChangeEvent, useRef, useState, useContext, FormEvent } from 'react'
 import { ImagePreview } from '../components/ImagePreview'
 import { Title } from '../components/Title'
 import {
