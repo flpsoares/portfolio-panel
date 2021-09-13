@@ -9,15 +9,17 @@ import { ModalDeleteProject } from '../components/ModalDeleteProject'
 import { ModalContext } from '../contexts/ModalContext'
 
 import { AnimatePresence } from 'framer-motion'
+import { ProjectContext } from '../contexts/ProjectContext'
 
 export const Home: React.FC = () => {
   const { modalDeleteProjectIsOpen } = useContext(ModalContext)
+  const { updateList } = useContext(ProjectContext)
 
   const [projects, setProjects] = useState<App.Project[]>([])
 
   useEffect(() => {
     api.get('projects').then((res) => setProjects(res.data))
-  }, [])
+  }, [updateList])
 
   return (
     <Container>

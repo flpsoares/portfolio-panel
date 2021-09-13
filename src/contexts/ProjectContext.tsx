@@ -17,6 +17,8 @@ interface ProjectContextData {
   projectTechnologies: any
   projectImages: App.Image[] | undefined
   projectLink: string | undefined
+  updateList: number
+  updateProjectList: () => void
 }
 
 interface ProjectContextProviderProps {
@@ -38,6 +40,8 @@ export function ProjectProvider({ children }: ProjectContextProviderProps) {
   >()
   const [projectImages, setProjectImages] = useState<App.Image[] | undefined>()
   const [projectLink, setProjectLink] = useState<string>()
+
+  const [updateList, setUpdateList] = useState(0)
 
   const getChoosedTechnologies = (number: number) => {
     choosedTechnologies.push(number)
@@ -71,6 +75,10 @@ export function ProjectProvider({ children }: ProjectContextProviderProps) {
     setProjectLink(link)
   }
 
+  const updateProjectList = () => {
+    setUpdateList(updateList + 1)
+  }
+
   return (
     <ProjectContext.Provider
       value={{
@@ -88,7 +96,9 @@ export function ProjectProvider({ children }: ProjectContextProviderProps) {
         projectDescription,
         projectTechnologies,
         projectImages,
-        projectLink
+        projectLink,
+        updateList,
+        updateProjectList
       }}
     >
       {children}
