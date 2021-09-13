@@ -10,9 +10,11 @@ import { ModalContext } from '../contexts/ModalContext'
 
 import { AnimatePresence } from 'framer-motion'
 import { ProjectContext } from '../contexts/ProjectContext'
+import { ModalEditProject } from '../components/ModalEditProject'
 
 export const Home: React.FC = () => {
-  const { modalDeleteProjectIsOpen } = useContext(ModalContext)
+  const { modalDeleteProjectIsOpen, modalEditProjectIsOpen } =
+    useContext(ModalContext)
   const { updateList } = useContext(ProjectContext)
 
   const [projects, setProjects] = useState<App.Project[]>([])
@@ -25,6 +27,7 @@ export const Home: React.FC = () => {
     <Container>
       <AnimatePresence>
         {modalDeleteProjectIsOpen && <ModalDeleteProject />}
+        {modalEditProjectIsOpen && <ModalEditProject />}
       </AnimatePresence>
       <Title>Home</Title>
       <Wrapper>

@@ -17,7 +17,8 @@ export const ProjectCard: React.FC<App.Project> = ({
   images,
   link
 }) => {
-  const { openModalDeleteProject, getDeleteInfo } = useContext(ModalContext)
+  const { openModalDeleteProject, getDeleteInfo, openModalEditProject } =
+    useContext(ModalContext)
 
   const history = useHistory()
   const { getProjectInfo } = useContext(ProjectContext)
@@ -34,6 +35,18 @@ export const ProjectCard: React.FC<App.Project> = ({
     history.push('/project')
   }
 
+  const editProject = () => {
+    getProjectInfo({
+      id,
+      name,
+      description,
+      technologies,
+      images,
+      link
+    })
+    openModalEditProject()
+  }
+
   const removeProject = () => {
     const parseId = id.toString()
     openModalDeleteProject()
@@ -47,7 +60,7 @@ export const ProjectCard: React.FC<App.Project> = ({
         <Button backgroundColor="var(--primary)" onClick={openInfo}>
           <HiPlus size={24} />
         </Button>
-        <Button backgroundColor="var(--primary)">
+        <Button backgroundColor="var(--primary)" onClick={editProject}>
           <AiOutlineEdit size={24} />
         </Button>
         <Button backgroundColor="#F44336" onClick={removeProject}>

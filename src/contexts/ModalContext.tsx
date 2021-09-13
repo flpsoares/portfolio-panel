@@ -1,25 +1,33 @@
-import { useState, ReactNode, createContext } from 'react'
+import { useState, ReactNode, createContext, useContext } from 'react'
 import { disableScroll, enableScroll } from '../utils/handleScroll'
+import { ProjectContext } from './ProjectContext'
 
 interface ModalContextData {
   modalTechnologyIsOpen: boolean
   openModalTechnology: () => void
   closeModalTechnology: () => void
+
   alertIsOpen: boolean
   alertContent: string
   alertIsSuccess: boolean | undefined
   openAlert: (content: string, isSuccess?: boolean) => void
   closeAlert: () => void
+
   modalCarouselIsOpen: boolean
   openModalCarousel: (initialIndex: number) => void
   closeModalCarousel: () => void
   initialIndex: number | undefined
+
   modalDeleteProjectIsOpen: boolean
   openModalDeleteProject: () => void
   closeModalDeleteProject: () => void
   deleteId: string | undefined
   deleteName: string | undefined
   getDeleteInfo: (id: string, name: string) => void
+
+  modalEditProjectIsOpen: boolean
+  openModalEditProject: () => void
+  closeModalEditProject: () => void
 }
 
 interface ModalContextProviderProps {
@@ -29,6 +37,8 @@ interface ModalContextProviderProps {
 export const ModalContext = createContext({} as ModalContextData)
 
 export function ModalContextProvider({ children }: ModalContextProviderProps) {
+  const { clearTechnologies } = useContext(ProjectContext)
+
   const [modalTechnologyIsOpen, setModalTechnologyIsOpen] = useState(false)
   const [alertIsOpen, setAlertIsOpen] = useState(false)
   const [alertContent, setAlertContent] = useState('')
@@ -40,6 +50,8 @@ export function ModalContextProvider({ children }: ModalContextProviderProps) {
   const [modalDeleteProjectIsOpen, setModalDeleteProjectIsOpen] = useState(false)
   const [deleteId, setDeleteId] = useState<string>()
   const [deleteName, setDeleteName] = useState<string>()
+
+  const [modalEditProjectIsOpen, setModalEditProjectIsOpen] = useState(false)
 
   const openModalTechnology = () => {
     disableScroll()
@@ -84,6 +96,15 @@ export function ModalContextProvider({ children }: ModalContextProviderProps) {
     setDeleteName(name)
   }
 
+  const openModalEditProject = () => {
+    setModalEditProjectIsOpen(true)
+  }
+
+  const closeModalEditProject = () => {
+    setModalEditProjectIsOpen(false)
+    clearTechnologies()
+  }
+
   return (
     <ModalContext.Provider
       value={{
@@ -104,7 +125,10 @@ export function ModalContextProvider({ children }: ModalContextProviderProps) {
         closeModalDeleteProject,
         deleteId,
         deleteName,
-        getDeleteInfo
+        getDeleteInfo,
+        modalEditProjectIsOpen,
+        openModalEditProject,
+        closeModalEditProject
       }}
     >
       {children}
