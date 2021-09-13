@@ -8,7 +8,7 @@ export const Container = styled(motion.div)`
 
   background: rgba(0, 0, 0, 0.3);
 
-  z-index: 10;
+  z-index: 30;
 
   position: fixed;
 
