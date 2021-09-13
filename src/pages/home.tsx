@@ -11,6 +11,7 @@ import { ModalContext } from '../contexts/ModalContext'
 import { AnimatePresence } from 'framer-motion'
 import { ProjectContext } from '../contexts/ProjectContext'
 import { ModalEditProject } from '../components/ModalEditProject'
+import ProjectApi from '../services/api/ProjectApi'
 
 export const Home: React.FC = () => {
   const { modalDeleteProjectIsOpen, modalEditProjectIsOpen } =
@@ -20,7 +21,7 @@ export const Home: React.FC = () => {
   const [projects, setProjects] = useState<App.Project[]>([])
 
   useEffect(() => {
-    api.get('projects').then((res) => setProjects(res.data))
+    ProjectApi.listProjects().then((res) => setProjects(res))
   }, [updateList])
 
   return (

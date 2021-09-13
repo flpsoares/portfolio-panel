@@ -1,6 +1,10 @@
 import { api } from '../api'
 
 class ProjectApi {
+  public async listProjects() {
+    return api.get('projects').then((res) => res.data)
+  }
+
   public async createWithLink({
     name,
     description,
@@ -38,6 +42,16 @@ class ProjectApi {
 
   public async createTechnology({ name }: Partial<App.Technology>) {
     return api.post('technology', { name }).then((res) => res.data)
+  }
+
+  public async update({
+    id,
+    name,
+    description,
+    link,
+    technologies
+  }: Partial<App.Project>) {
+    return api.put(`/project/${id}`, { name, description, link, technologies })
   }
 
   public async deleteProject(id: string) {
