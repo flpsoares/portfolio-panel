@@ -30,7 +30,8 @@ export const ProjectContext = createContext({} as ProjectContextData)
 export function ProjectProvider({ children }: ProjectContextProviderProps) {
   const [technologies, setTechnologies] = useState<any>([])
   const [technologyWasAdded, setTechnologyWasAdded] = useState(false)
-  const choosedTechnologies: number[] = []
+
+  const [choosedTechnologies, setChoosedTechnologies] = useState<number[]>([])
 
   const [projectId, setProjectId] = useState<number>()
   const [projectName, setProjectName] = useState<string>()
@@ -44,7 +45,7 @@ export function ProjectProvider({ children }: ProjectContextProviderProps) {
   const [updateList, setUpdateList] = useState(0)
 
   const getChoosedTechnologies = (number: number) => {
-    choosedTechnologies.push(number)
+    setChoosedTechnologies((choosedTechnologies) => [...choosedTechnologies, number])
   }
 
   const addedTechnology = () => {
@@ -52,7 +53,7 @@ export function ProjectProvider({ children }: ProjectContextProviderProps) {
   }
 
   const clearTechnologies = () => {
-    setTechnologies([])
+    setChoosedTechnologies([])
   }
 
   const listTechnologies = () => {
