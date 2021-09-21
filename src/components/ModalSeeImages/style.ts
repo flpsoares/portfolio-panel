@@ -41,8 +41,7 @@ export const Box = styled(motion.div)`
   flex-direction: column;
   gap: 22px;
   align-items: center;
-  /* background: rgba(0, 0, 0, 0.9); */
-  background: red;
+  background: rgba(0, 0, 0, 0.9);
   padding: 32px;
   position: relative;
   z-index: 45;
