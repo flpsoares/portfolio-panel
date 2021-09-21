@@ -25,7 +25,7 @@ export const Title = styled.p`
   font-size: 26px;
   font-weight: 600;
 
-  padding: 20px;
+  max-width: 400px;
 `
 
 export const Wrapper = styled.div`
