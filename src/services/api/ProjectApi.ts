@@ -56,6 +56,10 @@ class ProjectApi {
     }
   }
 
+  public async deleteImageByProjectId(projectId: number, imageId: number) {
+    return api.delete(`/image/${projectId}/${imageId}`).then((res) => res.data)
+  }
+
   public async deleteProject(id: string) {
     return api.delete(`/project/${id}`)
   }
