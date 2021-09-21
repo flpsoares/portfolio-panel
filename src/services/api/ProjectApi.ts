@@ -5,35 +5,25 @@ class ProjectApi {
     return api.get('projects').then((res) => res.data)
   }
 
-  public async createWithLink({
-    name,
-    description,
-    link,
-    technologies
-  }: Partial<App.Project>) {
-    return api
-      .post('projectLink', {
-        name,
-        description,
-        link,
-        technologies
-      })
-      .then((res) => res.data)
+  public async createWithLink(project: Partial<App.Project>) {
+    return api.post('projectLink', project).then((res) => res.data)
   }
 
-  public async createWithImage({ name, description, image, technologies }: any) {
+  public async createWithImage(project: Partial<App.Project>, files: File[]) {
     const formData = new FormData()
 
-    formData.append('name', name)
-    formData.append('description', description)
-    Array.from(image).forEach((image: any) => {
-      formData.append('image[]', image)
-    })
-    technologies.forEach((technologies: any) => {
-      formData.append('technologies[]', technologies)
-    })
+    if (project.name && project.description && project.technologies) {
+      formData.append('name', project.name)
+      formData.append('description', project.description)
+      Array.from(files).forEach((image: File) => {
+        formData.append('image[]', image)
+      })
+      project.technologies.forEach((technologies: any) => {
+        formData.append('technologies[]', technologies)
+      })
 
-    return api.post<App.Project>('projectImage', formData).then((res) => res.data)
+      return api.post<App.Project>('projectImage', formData).then((res) => res.data)
+    }
   }
 
   public async listTechnologies() {
@@ -44,14 +34,26 @@ class ProjectApi {
     return api.post('technology', { name }).then((res) => res.data)
   }
 
-  public async update({
-    id,
-    name,
-    description,
-    link,
-    technologies
-  }: Partial<App.Project>) {
-    return api.put(`/project/${id}`, { name, description, link, technologies })
+  public async update(project: Partial<App.Project>, files?: File[]) {
+    const formData = new FormData()
+
+    if (project.name && project.description && project.technologies) {
+      formData.append('name', project.name)
+      formData.append('description', project.description)
+      if (files) {
+        Array.from(files).forEach((image: File) => {
+          formData.append('image[]', image)
+        })
+      }
+      if (project.link) {
+        formData.append('link', project.link)
+      }
+      project.technologies.forEach((technologies: any) => {
+        formData.append('technologies[]', technologies)
+      })
+
+      return api.put(`/project/${project.id}`, formData)
+    }
   }
 
   public async deleteProject(id: string) {
