@@ -42,7 +42,7 @@ export const OverlayBody = styled(motion.div)`
   z-index: 6;
 
   img {
-    object-fit: cover;
+    object-fit: contain;
     width: 100%;
     height: 90vh;
   }
