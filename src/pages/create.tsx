@@ -1,4 +1,4 @@
-import { ChangeEvent, useRef, useState, useContext, FormEvent } from 'react'
+import { ChangeEvent, useRef, useState, useContext, FormEvent, useMemo } from 'react'
 import { ImagePreview } from '../components/ImagePreview'
 import { Title } from '../components/Title'
 import {
@@ -25,6 +25,7 @@ import { ProjectContext } from '../contexts/ProjectContext'
 import ProjectApi from '../services/api/ProjectApi'
 
 import { useHistory } from 'react-router-dom'
+import { AxiosError } from 'axios'
 
 export const Create: React.FC = () => {
   const { modalTechnologyIsOpen, openModalTechnology, openAlert } =
@@ -38,9 +39,8 @@ export const Create: React.FC = () => {
   const linkRef = useRef<HTMLInputElement>(null)
   const fileRef = useRef<HTMLInputElement>(null)
 
-  const [imagesChoosen, setImagesChoosen] = useState<any>(0)
-  const [srcImage, setSrcImage] = useState('')
   const [files, setFiles] = useState<File[]>([])
+  const imagesChoosen = useMemo(() => files.length, [files.length])
   const [checked, setChecked] = useState(true)
 
   const handleChecked = (checked: boolean) => {
@@ -50,17 +50,10 @@ export const Create: React.FC = () => {
   const verifyFile = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && fileRef.current?.files) {
       setFiles(Array.from(fileRef.current.files))
-      setImagesChoosen(fileRef.current.files.length)
     }
-  }
-
-  const listImages = (e: ChangeEvent<HTMLInputElement>) => {
-    // return console.log(e.target.files)
-  }
-
-  const handleOnChanged = (e: ChangeEvent<HTMLInputElement>) => {
-    listImages(e)
-    verifyFile(e)
+    if (fileRef.current !== null && files.length === 0) {
+      fileRef.current.value = ''
+    }
   }
 
   const successfullyRegisteredProject = () => {
@@ -93,27 +86,34 @@ export const Create: React.FC = () => {
     }
 
     if (checked) {
-      ProjectApi.createWithLink({
+      const projectWithLink: Partial<App.Project> = {
         name: nameRef.current?.value,
         description: descriptionRef.current?.value,
         link: linkRef.current?.value,
         technologies: choosedTechnologies
-      })
+      }
+
+      ProjectApi.createWithLink(projectWithLink)
         .then(() => successfullyRegisteredProject())
-        .catch((e) => openAlert(e.response.data.errors[0].message))
+        .catch((e: AxiosError) => openAlert(e.response?.data.errors[0].message))
     }
 
-    if (!checked && fileRef.current !== undefined) {
-      const image = fileRef.current?.files
-
-      ProjectApi.createWithImage({
-        name: nameRef.current?.value,
-        description: descriptionRef.current?.value,
-        image: image,
-        technologies: choosedTechnologies
-      })
-        .then(() => successfullyRegisteredProject())
-        .catch((e) => openAlert(e.response.data.errors[0].message))
+    if (!checked && files !== undefined) {
+      if (
+        nameRef.current?.value !== undefined &&
+        descriptionRef.current?.value !== undefined &&
+        files !== null &&
+        files !== undefined
+      ) {
+        const projectWithImage: Partial<App.Project> = {
+          name: nameRef.current?.value,
+          description: descriptionRef.current?.value,
+          technologies: choosedTechnologies
+        }
+        ProjectApi.createWithImage(projectWithImage, files)
+          .then(() => successfullyRegisteredProject())
+          .catch((e: AxiosError) => openAlert(e.response?.data.errors[0].message))
+      }
     }
   }
 
@@ -159,7 +159,7 @@ export const Create: React.FC = () => {
                 {imagesChoosen} {imagesChoosen === 1 ? 'file' : 'files'} choosen
               </p>
               <input
-                onChange={handleOnChanged}
+                onChange={verifyFile}
                 ref={fileRef}
                 id="file"
                 type="file"
@@ -175,6 +175,11 @@ export const Create: React.FC = () => {
                     name={file.name}
                     size={file.size}
                     file={file}
+                    onDelete={() => {
+                      setFiles((oldFiles) =>
+                        oldFiles.filter((_, keyFile) => keyFile !== index)
+                      )
+                    }}
                   />
                 )
               })}

@@ -6,19 +6,27 @@ import { niceBytes } from '../../utils/converterBytes'
 interface ImageProps {
   name: string
   size: number
-  file: File
+  file?: File
+  url?: string
+  onDelete?: () => void
 }
 
-export const ImagePreview: React.FC<ImageProps> = ({ name, size, file }) => {
+export const ImagePreview: React.FC<ImageProps> = ({
+  name,
+  size,
+  file,
+  url,
+  onDelete
+}) => {
   return (
     <Container>
-      <img src={URL.createObjectURL(file)} />
+      {file ? <img src={URL.createObjectURL(file)} /> : <img src={url} />}
       <Wrapper>
         <div>
           <p>{name}</p>
           <p>{niceBytes(size)}</p>
         </div>
-        <CloseButton type="button">
+        <CloseButton onClick={onDelete} type="button">
           <MdClose size={22} />
         </CloseButton>
       </Wrapper>
