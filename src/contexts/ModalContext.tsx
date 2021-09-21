@@ -28,6 +28,10 @@ interface ModalContextData {
   modalEditProjectIsOpen: boolean
   openModalEditProject: () => void
   closeModalEditProject: () => void
+
+  modalSeeImagesIsOpen: boolean
+  openModalSeeImages: () => void
+  closeModalSeeImages: () => void
 }
 
 interface ModalContextProviderProps {
@@ -52,6 +56,8 @@ export function ModalContextProvider({ children }: ModalContextProviderProps) {
   const [deleteName, setDeleteName] = useState<string>()
 
   const [modalEditProjectIsOpen, setModalEditProjectIsOpen] = useState(false)
+
+  const [modalSeeImagesIsOpen, setModalSeeImagesIsOpen] = useState(false)
 
   const openModalTechnology = () => {
     disableScroll()
@@ -105,6 +111,14 @@ export function ModalContextProvider({ children }: ModalContextProviderProps) {
     clearTechnologies()
   }
 
+  const openModalSeeImages = () => {
+    setModalSeeImagesIsOpen(true)
+  }
+
+  const closeModalSeeImages = () => {
+    setModalSeeImagesIsOpen(false)
+  }
+
   return (
     <ModalContext.Provider
       value={{
@@ -128,7 +142,10 @@ export function ModalContextProvider({ children }: ModalContextProviderProps) {
         getDeleteInfo,
         modalEditProjectIsOpen,
         openModalEditProject,
-        closeModalEditProject
+        closeModalEditProject,
+        modalSeeImagesIsOpen,
+        openModalSeeImages,
+        closeModalSeeImages
       }}
     >
       {children}

@@ -1,4 +1,11 @@
-import { Box, CloseButton, Container, OverlayBackdrop, OverlayBody } from './style'
+import {
+  Box,
+  CloseButton,
+  Container,
+  OverlayBackdrop,
+  OverlayBody,
+  ImagesButton
+} from './style'
 
 import {
   WrapperHeader,
@@ -13,14 +20,13 @@ import {
   FormButton
 } from '../../pages/styles/create'
 
-import { ImagePreview } from '../ImagePreview'
-
 import { MdClose } from 'react-icons/md'
 import {
   ChangeEvent,
   FormEvent,
   useContext,
   useEffect,
+  useMemo,
   useRef,
   useState
 } from 'react'
@@ -28,18 +34,21 @@ import { ModalContext } from '../../contexts/ModalContext'
 import { ProjectContext } from '../../contexts/ProjectContext'
 
 import Switch from 'react-switch'
-import { useHistory } from 'react-router-dom'
 import { ModalTechnology } from '../ModalTechnology'
 
 import { AnimatePresence } from 'framer-motion'
 import ProjectApi from '../../services/api/ProjectApi'
+import { ModalSeeImages } from '../ModalSeeImages'
+import { ImagePreview } from '../ImagePreview'
 
 export const ModalEditProject: React.FC = () => {
   const {
     modalTechnologyIsOpen,
     openModalTechnology,
     openAlert,
-    closeModalEditProject
+    closeModalEditProject,
+    modalSeeImagesIsOpen,
+    openModalSeeImages
   } = useContext(ModalContext)
   const {
     choosedTechnologies,
@@ -58,9 +67,8 @@ export const ModalEditProject: React.FC = () => {
   const linkRef = useRef<HTMLInputElement>(null)
   const fileRef = useRef<HTMLInputElement>(null)
 
-  const [imagesChoosen, setImagesChoosen] = useState<any>(0)
-  const [srcImage, setSrcImage] = useState('')
   const [files, setFiles] = useState<File[]>([])
+  const imagesChoosen = useMemo(() => files.length, [files.length])
   const [checked, setChecked] = useState(true)
 
   useEffect(() => {
@@ -74,17 +82,7 @@ export const ModalEditProject: React.FC = () => {
   const verifyFile = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && fileRef.current?.files) {
       setFiles(Array.from(fileRef.current.files))
-      setImagesChoosen(fileRef.current.files.length)
     }
-  }
-
-  const listImages = (e: ChangeEvent<HTMLInputElement>) => {
-    // console.log(files)
-  }
-
-  const handleOnChanged = (e: ChangeEvent<HTMLInputElement>) => {
-    listImages(e)
-    verifyFile(e)
   }
 
   function closeModalClickingInOverlay(e: any) {
@@ -123,15 +121,23 @@ export const ModalEditProject: React.FC = () => {
     e.preventDefault()
 
     if (nameRef.current !== null && descriptionRef.current !== null) {
-      ProjectApi.update({
+      const project: Partial<App.Project> = {
         id: projectId,
-        name: nameRef.current?.value,
-        description: descriptionRef.current?.value,
-        link: linkRef.current?.value,
-        technologies: choosedTechnologies
-      })
-        .then((res) => updateSuccessfully())
-        .catch((e) => e.response.data.errors[0].message)
+        name: nameRef.current.value,
+        description: descriptionRef.current.value,
+        technologies: choosedTechnologies,
+        link: linkRef.current?.value
+      }
+
+      if (!linkRef.current?.value) {
+        ProjectApi.update(project, files)
+          .then(() => updateSuccessfully())
+          .catch((e) => e.response.data.errors[0].message)
+      } else {
+        ProjectApi.update(project)
+          .then(() => updateSuccessfully())
+          .catch((e) => e.response.data.errors[0].message)
+      }
     }
   }
 
@@ -143,6 +149,7 @@ export const ModalEditProject: React.FC = () => {
     >
       <AnimatePresence>
         {modalTechnologyIsOpen && <ModalTechnology />}
+        {modalSeeImagesIsOpen && <ModalSeeImages />}
       </AnimatePresence>
       <OverlayBackdrop />
       <OverlayBody onClick={closeModalClickingInOverlay} />
@@ -176,13 +183,16 @@ export const ModalEditProject: React.FC = () => {
           </InputWrapper>
         ) : (
           <>
+            <ImagesButton onClick={openModalSeeImages} type="button">
+              See images
+            </ImagesButton>
             <InputFile>
-              <label htmlFor="file">CHOOSE IMAGES</label>
+              <label htmlFor="file">CHOOSE NEW IMAGES</label>
               <p>
                 {imagesChoosen} {imagesChoosen === 1 ? 'file' : 'files'} choosen
               </p>
               <input
-                onChange={handleOnChanged}
+                onChange={verifyFile}
                 ref={fileRef}
                 id="file"
                 type="file"
@@ -198,6 +208,11 @@ export const ModalEditProject: React.FC = () => {
                     name={file.name}
                     size={file.size}
                     file={file}
+                    onDelete={() => {
+                      setFiles((oldFiles) =>
+                        oldFiles.filter((_, keyFile) => keyFile !== index)
+                      )
+                    }}
                   />
                 )
               })}

@@ -6,7 +6,7 @@ export const Container = styled(motion.div)`
   width: 100vw;
   height: 100vh;
   background: rgba(0, 0, 0, 0.3);
-  z-index: 10;
+  z-index: 30;
   position: fixed;
   top: 0;
   left: 0;
@@ -26,45 +26,29 @@ export const Overlay = styled.div`
 
 export const OverlayBackdrop = styled(Overlay)`
   background: rgba(0, 0, 0, 0.7);
-  z-index: 15;
+  z-index: 35;
 `
 
 export const OverlayBody = styled(Overlay)`
   overflow-y: auto;
-  z-index: 20;
+  z-index: 40;
 `
 
 export const Box = styled(motion.div)`
-  background: var(--dark-secondary);
-
+  width: 1000px;
+  max-height: 90%;
   display: flex;
   flex-direction: column;
-
-  max-height: 90%;
+  gap: 22px;
+  align-items: center;
+  /* background: rgba(0, 0, 0, 0.9); */
+  background: red;
+  padding: 32px;
+  position: relative;
+  z-index: 45;
   overflow-y: auto;
 
-  gap: 24px;
-
-  width: 50%;
-
-  padding: 26px;
-
-  border-radius: 6px;
-  box-shadow: 10px 20px 20px 2px rgba(0, 0, 0, 0.2);
-
   position: relative;
-  z-index: 25;
-`
-
-export const ImagesButton = styled.button`
-  border: 1px solid var(--primary);
-  border-radius: 6px;
-  color: var(--text-primary);
-
-  font-size: 22px;
-  font-weight: 500;
-
-  padding: 8px;
 `
 
 export const CloseButton = styled.button`
