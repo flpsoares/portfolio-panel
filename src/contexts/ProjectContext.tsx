@@ -19,6 +19,7 @@ interface ProjectContextData {
   projectLink: string | undefined
   updateList: number
   updateProjectList: () => void
+  removeImageByIndex: (index: number) => void
 }
 
 interface ProjectContextProviderProps {
@@ -80,6 +81,12 @@ export function ProjectProvider({ children }: ProjectContextProviderProps) {
     setUpdateList(updateList + 1)
   }
 
+  const removeImageByIndex = (index: number) => {
+    setProjectImages(() =>
+      projectImages?.filter((_, imageIndex) => imageIndex !== index)
+    )
+  }
+
   return (
     <ProjectContext.Provider
       value={{
@@ -99,7 +106,8 @@ export function ProjectProvider({ children }: ProjectContextProviderProps) {
         projectImages,
         projectLink,
         updateList,
-        updateProjectList
+        updateProjectList,
+        removeImageByIndex
       }}
     >
       {children}
