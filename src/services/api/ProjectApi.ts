@@ -40,8 +40,8 @@ class ProjectApi {
     if (project.name && project.description && project.technologies) {
       formData.append('name', project.name)
       formData.append('description', project.description)
-      if (files) {
-        Array.from(files).forEach((image: File) => {
+      if (files?.length !== 0) {
+        files?.forEach((image: File) => {
           formData.append('image[]', image)
         })
       }

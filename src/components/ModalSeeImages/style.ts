@@ -48,6 +48,10 @@ export const Box = styled(motion.div)`
   overflow-y: auto;
 
   position: relative;
+
+  .dnd-style {
+    margin-bottom: 12px;
+  }
 `
 
 export const CloseButton = styled.button`

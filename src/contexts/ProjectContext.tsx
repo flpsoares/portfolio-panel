@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState } from 'react'
+import { createContext, ReactNode, useMemo, useState } from 'react'
 import ProjectApi from '../services/api/ProjectApi'
 
 interface ProjectContextData {
@@ -15,9 +15,10 @@ interface ProjectContextData {
   projectName: string | undefined
   projectDescription: string | undefined
   projectTechnologies: any
-  projectImages: App.Image[] | undefined
+  projectImages: App.Image[]
   projectLink: string | undefined
   updateList: number
+  setProjectImages: (projectImage: any) => void
   updateProjectList: () => void
   removeImageByIndex: (index: number) => void
 }
@@ -40,7 +41,12 @@ export function ProjectProvider({ children }: ProjectContextProviderProps) {
   const [projectTechnologies, setProjectTechnologies] = useState<
     number[] | undefined
   >()
-  const [projectImages, setProjectImages] = useState<App.Image[] | undefined>()
+  const [projectImagesState, setProjectImages] = useState<App.Image[]>([])
+  const projectImages = useMemo(() => {
+    return projectImagesState.sort((a, b) => {
+      return a.order - b.order
+    })
+  }, [projectImagesState])
   const [projectLink, setProjectLink] = useState<string>()
 
   const [updateList, setUpdateList] = useState(0)
@@ -73,7 +79,7 @@ export function ProjectProvider({ children }: ProjectContextProviderProps) {
     setProjectName(name)
     setProjectDescription(description)
     setProjectTechnologies(technologies)
-    setProjectImages(images)
+    setProjectImages(images || [])
     setProjectLink(link)
   }
 
@@ -107,7 +113,8 @@ export function ProjectProvider({ children }: ProjectContextProviderProps) {
         projectLink,
         updateList,
         updateProjectList,
-        removeImageByIndex
+        removeImageByIndex,
+        setProjectImages
       }}
     >
       {children}
