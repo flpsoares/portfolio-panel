@@ -120,6 +120,22 @@ export const ModalEditProject: React.FC = () => {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
 
+    if (choosedTechnologies.length === 0) {
+      return openAlert('You need to choose at least one technology')
+    }
+
+    if (nameRef.current?.value === '') {
+      return openAlert('Name cannot be null')
+    }
+
+    if (descriptionRef.current?.value === '') {
+      return openAlert('Description cannot be null')
+    }
+
+    if (checked && linkRef.current?.value === '') {
+      return openAlert('Link cannot be null')
+    }
+
     if (nameRef.current !== null && descriptionRef.current !== null) {
       const project: Partial<App.Project> = {
         id: projectId,
